@@ -6,10 +6,10 @@ class MovieList extends Component {
       Poster: "",
       Plot: "",
       Rating: 0,
-      Year: 0
-    }
+      Year: 0,
+    },
   };
-  handleDelete = movie => {
+  handleDelete = (movie) => {
     console.log(movie);
   };
   render() {
@@ -21,8 +21,8 @@ class MovieList extends Component {
         <table className="table">
           <thead>
             <tr>
-              <th>Title</th>
               <th>Poster</th>
+              <th>Title</th>
               <th>Plot</th>
               <th>Rating</th>
               <th>Year</th>
