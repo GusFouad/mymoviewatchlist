@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import MovieList from './components/movieList';
+import LoginForm from './components/loginForm';
+import Logout from './components/logoutForm';
+import RegisterForm from './components/registerform';
+import NavBar from './components/navBar';
 import './App.css';
+import Search from './components/search';
+class App extends Component {
+	state = {};
+	render() {
+		return (
+			<React.Fragment>
+				<NavBar />
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+				<main className="container">
+					<Route path="/mylist" component={MovieList} />
+					<Route path="/login" component={LoginForm} />
+					<Route path="/logout" component={Logout} />
+					<Route path="/search" component={Search} />
+					<Route path="/register" component={RegisterForm} />
+				</main>
+			</React.Fragment>
+		);
+	}
 }
 
 export default App;
