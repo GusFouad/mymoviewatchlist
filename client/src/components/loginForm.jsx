@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "./common/input";
-class RegisterForm extends Component {
+
+class LoginForm extends Component {
   state = {
-    account: { email: "", username: "", password: "" },
+    account: { username: "", password: "" },
     errors: {},
   };
   schema = {
-    email: Joi.string().required().email().label("Email"),
     username: Joi.string().required().label("Username"),
-    password: Joi.string().required().min(5).label("Password"),
+    password: Joi.string().required().label("Password"),
   };
   validate = () => {
     const { error } = Joi.validate(this.state.account, this.schema, {
@@ -47,15 +47,8 @@ class RegisterForm extends Component {
     const { account, errors } = this.state;
     return (
       <div>
-        <h1>Register</h1>
+        <h1>Log In</h1>
         <form onSubmit={this.handleSubmit}>
-          <Input
-            name="email"
-            value={account.email}
-            label="Email"
-            onChange={this.handleChange}
-            error={errors.email}
-          />
           <Input
             name="username"
             value={account.username}
@@ -71,7 +64,7 @@ class RegisterForm extends Component {
             error={errors.password}
           />
           <button disabled={this.validate()} className="btn btn-primary">
-            Register
+            Login
           </button>
         </form>
       </div>
@@ -79,4 +72,4 @@ class RegisterForm extends Component {
   }
 }
 
-export default RegisterForm;
+export default LoginForm;
