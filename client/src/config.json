@@ -1,0 +1,5 @@
+{
+  "apiKey": "ed1b18e9826bd1190664c17b9c51cd83",
+  "movieApi": "https://api.themoviedb.org/3/search/movie?api_key=ed1b18e9826bd1190664c17b9c51cd83&query=",
+  "https://api.themoviedb.org/3/search/movie?api_key=ed1b18e9826bd1190664c17b9c51cd83=${this.state.search}&page=${pageNumber}": "https://api.themoviedb.org/3/search/movie?api_key=ed1b18e9826bd1190664c17b9c51cd83&query=${this.state.search}"
+}
