@@ -20,4 +20,10 @@ moviesRoute.route("/add").post((req, res) => {
   });
 });
 
+moviesRoute.route("/delete/:id").delete((req, res) => {
+  Movie.findByIdAndRemove({ _id: req.params.id }).then(function (movie) {
+    res.send(movie);
+  });
+});
+
 module.exports = moviesRoute;

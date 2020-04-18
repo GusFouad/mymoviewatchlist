@@ -21,7 +21,7 @@ class Search extends Component {
     await axios(config.movieApi + this.state.search).then(({ data }) => {
       let movies = data.results;
       this.setState({
-        movies: [...data.results],
+        movies: [...movies],
         totalResults: data.total_results,
       });
       console.log(data.results, data.results[0].poster_path);

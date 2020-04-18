@@ -7,7 +7,7 @@ const MovieSchema = new mongoose.Schema({
   plot: {
     type: String,
   },
-  poster: {
+  image: {
     type: String,
   },
   rating: {

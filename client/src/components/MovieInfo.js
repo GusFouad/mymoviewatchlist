@@ -13,7 +13,9 @@ const MovieInfo = ({ closeMovieInfo, currentMovie, onClickAdd }) => {
     };
     await axios
       .post("http://localhost:5000/movies/add", movie)
-      .then((r) => console.log(r, "Successfully added to your watchlist"));
+      .then((r) =>
+        console.log(r, "Successfully added to your watchlist", movie.image)
+      );
   };
 
   return (

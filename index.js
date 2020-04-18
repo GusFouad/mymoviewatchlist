@@ -9,13 +9,17 @@ const postTestRoute = require("./routes/postTest");
 const moviesRoute = require("./routes/movies");
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 dotenv.config();
 
 mongoose.connect(
   process.env.DB_CONNECT,
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
   () => console.log("Connected to Mongodb")
 );
 //

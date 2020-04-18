@@ -1,52 +1,35 @@
 import React, { Component } from "react";
+import { getMovies } from "../services/movieService";
+import MoviesTable from "./MoviesTable";
+import axios from "axios";
 class MovieList extends Component {
   state = {
-    movies: {
-      Title: "",
-      Poster: "",
-      Plot: "",
-      Rating: 0,
-      Year: 0,
-    },
+    movies: [],
   };
-  handleDelete = (movie) => {
-    console.log(movie);
+  async componentDidMount() {
+    const { data: movies } = await getMovies();
+    console.log("THESE ARE THE MOVIES", movies);
+    this.setState({ movies });
+  }
+  handleDelete = async (movie) => {
+    const originalMovies = this.state.movies;
+    const movies = originalMovies.filter((m) => m._id !== movie._id);
+    this.setState({ movies });
+    await axios.delete("http://localhost:5000/movies/delete/" + movie._id);
   };
   render() {
     const { length: count } = this.state.movies;
+    const { movies } = this.state;
     if (count === 0) return <p>There are no movies on your watchlist </p>;
     return (
       <React.Fragment>
         <p>You have {count} movies on your watchlist</p>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Poster</th>
-              <th>Title</th>
-              <th>Plot</th>
-              <th>Rating</th>
-              <th>Year</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <button
-                  onClick={() => this.handleDelete()}
-                  className="btn btn-danger btn-m"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+        <MoviesTable
+          movies={movies}
+          onDelete={this.handleDelete}
+          poster={movies.poster}
+        />
       </React.Fragment>
     );
   }
