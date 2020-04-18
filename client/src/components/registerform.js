@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
-import Input from "./common/input";
+import Input from "../common/input";
 class RegisterForm extends Component {
   state = {
     account: { email: "", username: "", password: "" },
