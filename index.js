@@ -28,7 +28,6 @@ app.use("/user", authRoute);
 app.use("/post", postTestRoute);
 app.use("/movies", moviesRoute);
 
-// app.use('/movies', movieRoute)
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

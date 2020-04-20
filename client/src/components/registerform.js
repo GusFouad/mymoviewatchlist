@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "../common/input";
+import { register } from "../services/userService";
 class RegisterForm extends Component {
   state = {
-    account: { email: "", username: "", password: "" },
+    account: { email: "", name: "", password: "" },
     errors: {},
   };
   schema = {
     email: Joi.string().required().email().label("Email"),
-    username: Joi.string().required().label("Username"),
+    name: Joi.string().required().label("Name"),
     password: Joi.string().required().min(5).label("Password"),
   };
   validate = () => {
@@ -26,13 +27,26 @@ class RegisterForm extends Component {
     const { error } = Joi.validate(obj, schema);
     return error ? error.details[0].message : null;
   };
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const errors = this.validate();
     console.log(errors);
     this.setState({ errors: errors || {} });
     if (errors) return;
     console.log("submitted");
+    //
+    try {
+      const response = await register(this.state.account);
+      console.log(response);
+      localStorage.setItem("token", response.headers["auth-token"]);
+      window.location = "/search";
+    } catch (ex) {
+      if (ex.response && ex.response === 400) {
+        const errors = { ...this.state.errors };
+        errors.email = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
   handleChange = ({ currentTarget: input }) => {
     const errors = { ...this.state.errors };
@@ -57,11 +71,11 @@ class RegisterForm extends Component {
             error={errors.email}
           />
           <Input
-            name="username"
-            value={account.username}
-            label="Username"
+            name="name"
+            value={account.name}
+            label="Name"
             onChange={this.handleChange}
-            error={errors.username}
+            error={errors.name}
           />
           <Input
             name="password"

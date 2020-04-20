@@ -1,18 +1,27 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 import MyMovieList from "./components/MyMovieList";
 import LoginForm from "./components/loginForm";
 import Logout from "./components/logoutForm";
 import RegisterForm from "./components/registerform";
 import NavBar from "./components/navBar";
-import "./App.css";
 import Search from "./components/search.jsx";
+import "./App.css";
 class App extends Component {
   state = {};
+  componentDidMount() {
+    try {
+      const jwt = localStorage.getItem("token");
+      const user = jwtDecode(jwt);
+      console.log(user);
+      this.setState({ user });
+    } catch (ex) {}
+  }
   render() {
     return (
       <React.Fragment>
-        <NavBar />
+        <NavBar user={this.state.user} />
 
         <main className="container">
           <Route path="/mylist" component={MyMovieList} />
