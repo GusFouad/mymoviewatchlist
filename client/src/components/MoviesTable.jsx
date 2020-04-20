@@ -47,7 +47,9 @@ class MoviesTable extends Component {
           {movies.map((movie) => (
             <tr key={movie._id || movie.key}>
               {this.columns.map((column) => (
-                <td>{this.renderCell(movie, column)}</td>
+                <td key={column.key || column.path}>
+                  {this.renderCell(movie, column)}
+                </td>
               ))}
             </tr>
           ))}

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "../common/input";
+import { login } from "../services/authService";
 
 class LoginForm extends Component {
   state = {
@@ -26,14 +27,29 @@ class LoginForm extends Component {
     const { error } = Joi.validate(obj, schema);
     return error ? error.details[0].message : null;
   };
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const errors = this.validate();
     console.log(errors);
     this.setState({ errors: errors || {} });
     if (errors) return;
     console.log("submitted");
+    //
+    try {
+      const { account } = this.state;
+      const { data: jwt } = await login(account.username, account.password);
+      localStorage.setItem("token", jwt);
+      window.location = "/mylist";
+    } catch (ex) {
+      if (ex.response && ex.response === 400) {
+        const errors = { ...this.state.errors };
+        errors.email = ex.response.account;
+        this.setState({ errors });
+        console.log(ex);
+      }
+    }
   };
+
   handleChange = ({ currentTarget: input }) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(input);
@@ -55,6 +71,7 @@ class LoginForm extends Component {
             label="Username"
             onChange={this.handleChange}
             error={errors.username}
+            type="text"
           />
           <Input
             name="password"
@@ -62,6 +79,7 @@ class LoginForm extends Component {
             label="Password"
             onChange={this.handleChange}
             error={errors.password}
+            type="password"
           />
           <button disabled={this.validate()} className="btn btn-primary">
             Login
