@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const Movie = require("../models/Movie");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
@@ -56,5 +57,7 @@ router.post("/login", async (req, res) => {
     .send(token);
   res.send("Logged in");
 });
+
+//
 
 module.exports = router;
