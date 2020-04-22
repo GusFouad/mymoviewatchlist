@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import config from "../config.json";
-import MovieList from "./MovieList";
+import MovieList from "./movieList";
 import MovieInfo from "./MovieInfo";
 import Pagination from "./Pagination";
 

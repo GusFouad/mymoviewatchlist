@@ -12,7 +12,11 @@ const MovieInfo = ({ closeMovieInfo, currentMovie, onClickAdd }) => {
       movieId: currentMovie.id,
     };
     await axios
-      .post("http://localhost:5000/movies/add", movie)
+      .post("http://localhost:5000/movies/add", movie, {
+        headers: {
+          Authorization: window.localStorage.getItem('token')
+        }
+      })
       .then((r) =>
         console.log(r, "Successfully added to your watchlist", movie.image)
       );

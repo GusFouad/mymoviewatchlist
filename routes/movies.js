@@ -1,6 +1,7 @@
 const moviesRoute = require("express").Router();
 const Movie = require("../models/Movie");
-const jwt = require("jsonwebtoken");
+
+const verifyToken = require('./verifyToken')
 
 moviesRoute.route("/mymovies").get((req, res) => {
   Movie.find((err, movies) => {
@@ -13,7 +14,8 @@ moviesRoute.route("/mymovies").get((req, res) => {
   });
 });
 
-moviesRoute.route("/add").post((req, res) => {
+moviesRoute.route("/add").post(verifyToken, (req, res) => {
+  console.log(req.user)
   const movies = new Movie(req.body);
   movies.save().then((movies) => {
     res.status(200).json({ movies: "Movie added successfully" });
