@@ -1,5 +1,6 @@
 const moviesRoute = require("express").Router();
 const Movie = require("../models/Movie");
+const User = require("../models/User");
 
 const verifyToken = require("./verifyToken");
 
@@ -14,18 +15,16 @@ moviesRoute.get("/list", (req, res) => {
   });
 });
 
-moviesRoute.post("/add", verifyToken, (req, res) => {
-  // console.log(req.user.movies);
-  const user = req.user;
+moviesRoute.post("/add", verifyToken, async (req, res) => {
   const movie = new Movie(req.body);
-  movie.save().then((movies) => {
-    res.status(200).json({ movies: "Movie added successfully" });
-    user.movies.push(movie);
-    await user.save();
-    console.log(user, movie);
-    res.status(200).send(req.user.movie);
-  });
+
+  const user = await User.findById(req.user._id);
+  user.movies.push(new Movie(req.body));
+  await user.save();
+
+  res.status(200).send(req.user.movie);
 });
+
 moviesRoute.route("/add").post(verifyToken, (req, res) => {
   console.log(req.user);
   const movie = new Movie(req.body);
